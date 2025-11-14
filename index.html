@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReadTrack - 我的讀書追蹤系統</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        main {
+            padding: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            color: #2d3748;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .book-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .book-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .book-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .book-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .book-date {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        .book-rating {
+            color: #ffd700;
+            font-size: 1.2em;
+        }
+
+        .book-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            background: #e7f0ff;
+            color: #667eea;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .book-summary {
+            color: #4a5568;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .book-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .btn-secondary:hover {
+            background: #dee2e6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #6c757d;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            header p {
+                font-size: 1em;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            main {
+                padding: 20px;
+            }
+
+            .book-header {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 ReadTrack</h1>
+            <p>我的個人閱讀追蹤系統</p>
+        </header>
+
+        <div class="stats">
+            <div class="stat-item">
+                <span class="stat-number">1</span>
+                <span class="stat-label">已讀書籍</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">1</span>
+                <span class="stat-label">讀書心得</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">5.0</span>
+                <span class="stat-label">平均評分</span>
+            </div>
+        </div>
+
+        <main>
+            <h2 class="section-title">📖 讀書心得</h2>
+
+            <div class="book-list">
+                <!-- 富爸爸窮爸爸 -->
+                <div class="book-card">
+                    <div class="book-header">
+                        <div>
+                            <div class="book-title">富爸爸窮爸爸</div>
+                            <div class="book-date">📅 2025-11-13</div>
+                        </div>
+                        <div class="book-rating">⭐⭐⭐⭐⭐</div>
+                    </div>
+
+                    <div class="book-meta">
+                        <span class="meta-tag">投資理財</span>
+                        <span class="meta-tag">個人成長</span>
+                        <span class="meta-tag">羅伯特·清崎</span>
+                    </div>
+
+                    <div class="book-summary">
+                        改變財務思維的經典之作，重點不是賺多少錢，而是如何讓錢為你工作。
+                        探討資產 vs 負債的重新定義、為錢工作 vs 讓錢為你工作、技能變現的關鍵能力。
+                    </div>
+
+                    <div class="book-actions">
+                        <a href="reviews/2025-11-13-富爸爸窮爸爸.md" class="btn btn-primary" target="_blank">閱讀完整心得</a>
+                        <a href="https://github.com/joechiboo/ReadTrack" class="btn btn-secondary" target="_blank">GitHub</a>
+                    </div>
+                </div>
+
+                <!-- 未來的書籍會在這裡 -->
+            </div>
+        </main>
+
+        <footer>
+            <p>
+                Powered by <a href="https://github.com/joechiboo/ReadTrack" target="_blank">ReadTrack</a>
+                · 使用 <a href=".specify/memory/specification.md" target="_blank">SDD 規格驅動開發</a>
+            </p>
+            <p style="margin-top: 10px; font-size: 0.9em;">
+                💡 閱讀改變思維，思維改變人生
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // 簡單的點擊追蹤（可選）
+        document.querySelectorAll('.book-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (!e.target.closest('.btn')) {
+                    const link = this.querySelector('.btn-primary');
+                    if (link) window.open(link.href, '_blank');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
