@@ -271,7 +271,7 @@
                     </div>
 
                     <div class="book-actions">
-                        <a href="reviews/2025-11-13-富爸爸窮爸爸.md" class="btn btn-primary" target="_blank">閱讀完整心得</a>
+                        <a href="review.html?file=reviews/2025-11-13-富爸爸窮爸爸.md" class="btn btn-primary">閱讀完整心得</a>
                         <a href="https://github.com/joechiboo/ReadTrack" class="btn btn-secondary" target="_blank">GitHub</a>
                     </div>
                 </div>
@@ -292,12 +292,12 @@
     </div>
 
     <script>
-        // 簡單的點擊追蹤（可選）
+        // 點擊卡片導航到心得頁面
         document.querySelectorAll('.book-card').forEach(card => {
             card.addEventListener('click', function(e) {
                 if (!e.target.closest('.btn')) {
                     const link = this.querySelector('.btn-primary');
-                    if (link) window.open(link.href, '_blank');
+                    if (link) window.location.href = link.href;
                 }
             });
         });

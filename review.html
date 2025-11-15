@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>讀書心得 - ReadTrack</title>
+
+    <!-- Marked.js - Markdown 解析器 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Highlight.js - 程式碼語法高亮 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        header h1 {
+            font-size: 1.5em;
+        }
+
+        #loading {
+            text-align: center;
+            padding: 100px 40px;
+            color: #6c757d;
+        }
+
+        #error {
+            text-align: center;
+            padding: 100px 40px;
+            color: #dc3545;
+        }
+
+        .content {
+            padding: 60px;
+        }
+
+        /* Markdown 樣式 */
+        .markdown-body {
+            color: #24292e;
+        }
+
+        .markdown-body h1 {
+            font-size: 2.5em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            color: #2d3748;
+        }
+
+        .markdown-body h2 {
+            font-size: 2em;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            color: #2d3748;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+
+        .markdown-body h3 {
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #4a5568;
+        }
+
+        .markdown-body h4 {
+            font-size: 1.2em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+
+        .markdown-body p {
+            margin-bottom: 16px;
+            line-height: 1.8;
+            color: #4a5568;
+        }
+
+        .markdown-body ul, .markdown-body ol {
+            margin-bottom: 16px;
+            padding-left: 30px;
+        }
+
+        .markdown-body li {
+            margin-bottom: 8px;
+            line-height: 1.8;
+        }
+
+        .markdown-body blockquote {
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            margin: 20px 0;
+            background: #f8f9fa;
+            border-radius: 4px;
+            color: #4a5568;
+            font-style: italic;
+        }
+
+        .markdown-body code {
+            background: #f6f8fa;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9em;
+            color: #e83e8c;
+        }
+
+        .markdown-body pre {
+            background: #f6f8fa;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid #e1e4e8;
+        }
+
+        .markdown-body pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .markdown-body table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .markdown-body table th,
+        .markdown-body table td {
+            border: 1px solid #e1e4e8;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .markdown-body table th {
+            background: #f6f8fa;
+            font-weight: 600;
+        }
+
+        .markdown-body hr {
+            border: none;
+            border-top: 2px solid #e9ecef;
+            margin: 40px 0;
+        }
+
+        .markdown-body a {
+            color: #667eea;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .markdown-body a:hover {
+            border-bottom-color: #667eea;
+        }
+
+        .markdown-body strong {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .markdown-body input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #6c757d;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 30px 20px;
+            }
+
+            header {
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .markdown-body h1 {
+                font-size: 2em;
+            }
+
+            .markdown-body h2 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 ReadTrack</h1>
+            <a href="index.html" class="back-btn">← 回到首頁</a>
+        </header>
+
+        <div id="loading">
+            <p>📖 載入中...</p>
+        </div>
+
+        <div id="error" style="display: none;">
+            <p>❌ 無法載入讀書心得</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">請確認文件路徑是否正確</p>
+        </div>
+
+        <div class="content" id="content" style="display: none;">
+            <div class="markdown-body" id="markdown-content"></div>
+        </div>
+
+        <footer>
+            <p>
+                Powered by <a href="https://github.com/joechiboo/ReadTrack" target="_blank">ReadTrack</a>
+                · <a href="index.html">返回首頁</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // 配置 marked.js
+        marked.setOptions({
+            breaks: true,
+            gfm: true,
+            highlight: function(code, lang) {
+                if (lang && hljs.getLanguage(lang)) {
+                    try {
+                        return hljs.highlight(code, { language: lang }).value;
+                    } catch (err) {}
+                }
+                return hljs.highlightAuto(code).value;
+            }
+        });
+
+        // 從 URL 參數獲取文件路徑
+        const urlParams = new URLSearchParams(window.location.search);
+        const filePath = urlParams.get('file');
+
+        if (!filePath) {
+            showError('未指定文件路徑');
+        } else {
+            loadMarkdown(filePath);
+        }
+
+        async function loadMarkdown(path) {
+            try {
+                const response = await fetch(path);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const markdown = await response.text();
+
+                // 解析 Markdown
+                const html = marked.parse(markdown);
+
+                // 顯示內容
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+                document.getElementById('markdown-content').innerHTML = html;
+
+                // 更新頁面標題
+                const firstH1 = document.querySelector('.markdown-body h1');
+                if (firstH1) {
+                    document.title = firstH1.textContent + ' - ReadTrack';
+                }
+
+            } catch (error) {
+                console.error('Error loading markdown:', error);
+                showError('載入失敗：' + error.message);
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+            document.getElementById('error').querySelector('p').textContent = '❌ ' + message;
+        }
+    </script>
+</body>
+</html>
