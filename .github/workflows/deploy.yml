@@ -1,4 +1,23 @@
-name: Deploy to GitHub Pages
+# Workflow 名稱會根據觸發事件動態顯示
+# - PR 合併時：顯示 PR 標題
+# - 直接 commit 時：顯示 commit 訊息
+name: 📚 Deploy ReadTrack
+
+# 動態設定 workflow run 的名稱
+run-name: |
+  ${{
+    github.event.head_commit.message != null &&
+    contains(github.event.head_commit.message, 'Merge pull request')
+      ? format('📚 Deploy PR #{0}',
+          github.event.head_commit.message
+            | regex_replace('Merge pull request #(\d+).*', '$1')
+        )
+      : format('📚 Deploy: {0}',
+          github.event.head_commit.message != null
+            ? github.event.head_commit.message
+            : 'Manual trigger'
+        )
+  }}
 
 on:
   # 當推送到 main 分支時觸發
@@ -13,6 +32,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  pull-requests: read  # 讀取 PR 資訊
 
 # 只允許一個部署同時運行
 concurrency:
@@ -26,9 +46,61 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 取得完整歷史記錄
+
+      - name: 📝 Display deployment info
+        run: |
+          echo "==================================="
+          echo "📚 ReadTrack 部署資訊"
+          echo "==================================="
+
+          # 取得 commit 訊息
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+
+          if [[ "$COMMIT_MSG" == Merge* ]]; then
+            # 如果是 PR 合併
+            if [[ "$COMMIT_MSG" =~ "Merge pull request #([0-9]+)" ]]; then
+              PR_NUMBER=$(echo "$COMMIT_MSG" | grep -oE '#[0-9]+' | sed 's/#//')
+              echo "📦 類型: Pull Request 合併"
+              echo "🔢 PR 編號: #$PR_NUMBER"
+
+              # 嘗試從 commit message 中提取 PR 標題
+              # GitHub 的合併訊息格式通常是: Merge pull request #X from branch\n\nPR標題
+              SECOND_LINE=$(git log -1 --pretty=format:"%B" | sed -n '3p')
+              if [ ! -z "$SECOND_LINE" ]; then
+                echo "📌 PR 標題: $SECOND_LINE"
+              fi
+            fi
+          else
+            # 直接 commit
+            echo "📦 類型: 直接 Commit"
+            echo "💬 訊息: $COMMIT_MSG"
+          fi
+
+          echo "👤 作者: ${{ github.actor }}"
+          echo "🕐 時間: $(date '+%Y-%m-%d %H:%M:%S')"
+          echo "🏷️ 分支: ${{ github.ref_name }}"
+          echo "🔗 Commit: ${{ github.sha }}"
+          echo "==================================="
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
+
+      - name: 📊 List updated files
+        run: |
+          echo "📊 本次部署包含的檔案變更："
+          echo "-----------------------------------"
+
+          # 如果是 merge commit，顯示 PR 中的所有變更
+          if git rev-parse HEAD^2 >/dev/null 2>&1; then
+            git diff --name-status HEAD^1...HEAD^2 | head -20
+          else
+            # 否則顯示最後一次 commit 的變更
+            git diff --name-status HEAD~1..HEAD | head -20
+          fi
+
+          echo "-----------------------------------"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -38,9 +110,18 @@ jobs:
 
   # 部署工作
   deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Deploy to GitHub Pages
+      - name: 🚀 Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: ✅ Deployment completed
+        run: |
+          echo "✅ 部署成功！"
+          echo "🌐 網站已更新: ${{ steps.deployment.outputs.page_url }}"
+          echo "📚 ReadTrack 閱讀追蹤系統已上線"
