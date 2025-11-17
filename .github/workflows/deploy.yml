@@ -1,15 +1,4 @@
-# Workflow 名稱會根據觸發事件動態顯示
-# - PR 合併時：顯示 PR 標題
-# - 直接 commit 時：顯示 commit 訊息
 name: 📚 Deploy ReadTrack
-
-# 動態設定 workflow run 的名稱
-run-name: |
-  ${{
-    github.event_name == 'workflow_dispatch' && '📚 Manual Deploy' ||
-    contains(github.event.head_commit.message, 'Merge pull request') && '📚 Deploy from PR' ||
-    format('📚 Deploy: {0}', github.event.head_commit.message)
-  }}
 
 on:
   # 當推送到 main 分支時觸發
@@ -24,7 +13,6 @@ permissions:
   contents: read
   pages: write
   id-token: write
-  pull-requests: read  # 讀取 PR 資訊
 
 # 只允許一個部署同時運行
 concurrency:
