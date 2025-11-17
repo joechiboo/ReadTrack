@@ -6,17 +6,9 @@ name: 📚 Deploy ReadTrack
 # 動態設定 workflow run 的名稱
 run-name: |
   ${{
-    github.event.head_commit.message != null &&
-    contains(github.event.head_commit.message, 'Merge pull request')
-      ? format('📚 Deploy PR #{0}',
-          github.event.head_commit.message
-            | regex_replace('Merge pull request #(\d+).*', '$1')
-        )
-      : format('📚 Deploy: {0}',
-          github.event.head_commit.message != null
-            ? github.event.head_commit.message
-            : 'Manual trigger'
-        )
+    github.event_name == 'workflow_dispatch' && '📚 Manual Deploy' ||
+    contains(github.event.head_commit.message, 'Merge pull request') && '📚 Deploy from PR' ||
+    format('📚 Deploy: {0}', github.event.head_commit.message)
   }}
 
 on:
