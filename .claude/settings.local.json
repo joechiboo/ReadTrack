@@ -12,7 +12,8 @@
       "Bash(gh run list:*)",
       "Bash(gh pr create:*)",
       "Bash(gh pr merge:*)",
-      "Bash(gh pr:*)"
+      "Bash(gh pr:*)",
+      "Bash(gh run view:*)"
     ],
     "deny": [],
     "ask": []
