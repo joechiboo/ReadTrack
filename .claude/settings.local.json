@@ -13,7 +13,22 @@
       "Bash(gh pr create:*)",
       "Bash(gh pr merge:*)",
       "Bash(gh pr:*)",
-      "Bash(gh run view:*)"
+      "Bash(gh run view:*)",
+      "Bash(find:*)",
+      "Bash(node --version:*)",
+      "Bash(git config:*)",
+      "Bash(gh --version:*)",
+      "Bash(gh auth:*)",
+      "Bash(git checkout:*)",
+      "Bash(git merge:*)",
+      "Bash(where:*)",
+      "Bash(python -m http.server:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(timeout:*)",
+      "Bash(ping:*)",
+      "Bash(ls:*)",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": []
