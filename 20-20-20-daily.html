@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20/20/20 晨間練習 | 清晨五點俱樂部</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft JhengHei", "Segoe UI", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: white;
+            padding: 10mm;
+            max-width: 210mm;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 4px;
+        }
+
+        .header .subtitle {
+            font-size: 13px;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .section {
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            padding: 12px;
+            background: #fafafa;
+        }
+
+        .section.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .section h2 {
+            font-size: 16px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #3498db;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .section h2 .icon {
+            font-size: 18px;
+        }
+
+        .time-block {
+            background: white;
+            border-left: 4px solid #3498db;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .time-block.move {
+            border-left-color: #e74c3c;
+        }
+
+        .time-block.reflect {
+            border-left-color: #f39c12;
+        }
+
+        .time-block.grow {
+            border-left-color: #27ae60;
+        }
+
+        .time-block h3 {
+            font-size: 14px;
+            color: #2c3e50;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+
+        .time-block .time {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-bottom: 6px;
+        }
+
+        .time-block ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .time-block ul li {
+            font-size: 12px;
+            padding: 3px 0;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .time-block ul li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+        }
+
+
+        .checklist {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .checklist ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist ul li {
+            font-size: 12px;
+            padding: 5px 0;
+            padding-left: 24px;
+            position: relative;
+            border-bottom: 1px dotted #ddd;
+        }
+
+        .checklist ul li:last-child {
+            border-bottom: none;
+        }
+
+        .checklist ul li:before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            font-size: 16px;
+            color: #3498db;
+        }
+
+        .quotes {
+            background: #fff9e6;
+            padding: 12px;
+            border-left: 4px solid #f39c12;
+            border-radius: 4px;
+            font-style: italic;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .quotes p {
+            margin-bottom: 8px;
+        }
+
+        .quotes p:last-child {
+            margin-bottom: 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 12px;
+            border-top: 2px solid #ecf0f1;
+            margin-top: 15px;
+        }
+
+        .footer p {
+            font-size: 11px;
+            color: #7f8c8d;
+        }
+
+
+        @media print {
+            body {
+                padding: 0;
+            }
+
+            .section {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌅 20/20/20 晨間練習</h1>
+        <p class="subtitle">在世界醒來之前投資自己 | 清晨五點俱樂部</p>
+    </div>
+
+    <div class="main-content">
+        <!-- 左欄：20/20/20 執行表 -->
+        <div class="section" style="grid-column: 1;">
+            <h2><span class="icon">⏰</span> 5:00-6:00 黃金一小時</h2>
+
+            <div class="time-block move">
+                <h3>💪 5:00-5:20 運動 (Move)</h3>
+                <div class="time">20 分鐘 · 啟動身體</div>
+                <ul>
+                    <li>流汗的運動：跑步、伏地挺身、深蹲、跳繩</li>
+                    <li>啟動多巴胺分泌，降低壓力荷爾蒙</li>
+                    <li>喚醒大腦，提升專注力</li>
+                    <li><strong>記得：運動後會流汗，規劃洗澡時間</strong></li>
+                </ul>
+            </div>
+
+            <div class="time-block reflect">
+                <h3>🧘 5:20-5:40 反思 (Reflect)</h3>
+                <div class="time">20 分鐘 · 整理思緒</div>
+                <ul>
+                    <li>冥想、深呼吸、靜坐</li>
+                    <li>寫日記、感恩練習</li>
+                    <li>設定今天的意圖與目標</li>
+                    <li>建立內在平靜，整理情緒</li>
+                </ul>
+            </div>
+
+            <div class="time-block grow">
+                <h3>📚 5:40-6:00 學習 (Grow)</h3>
+                <div class="time">20 分鐘 · 投資自己</div>
+                <ul>
+                    <li>閱讀書籍、聽有聲書</li>
+                    <li>學習新技能、複習重點</li>
+                    <li>文獻閱讀、論文進度</li>
+                    <li>知識累積、持續成長</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 右欄：檢查清單與金句 -->
+        <div style="grid-column: 2; display: flex; flex-direction: column; gap: 12px;">
+            <!-- 睡前檢查清單 -->
+            <div class="section">
+                <h2><span class="icon">🌙</span> 睡前檢查 (21:30)</h2>
+                <div class="checklist">
+                    <ul>
+                        <li>20:00 後關閉所有螢幕</li>
+                        <li>不滑手機、不看電視</li>
+                        <li>睡前不吃東西</li>
+                        <li>21:30 準時上床睡覺</li>
+                        <li>為明天 5:00 做好準備</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 睡醒提醒 -->
+            <div class="section">
+                <h2><span class="icon">☀️</span> 睡醒提醒 (5:00)</h2>
+                <div class="checklist">
+                    <ul>
+                        <li>立刻起床，不賴床</li>
+                        <li>喝一杯水，補充水分</li>
+                        <li>開始第一個 20 分鐘</li>
+                        <li>專注當下，享受過程</li>
+                        <li>這是你的黃金時刻</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 金句提醒 -->
+        <div class="section full-width">
+            <h2><span class="icon">💡</span> 金句提醒</h2>
+            <div class="quotes">
+                <p><strong>「在世界醒來之前投資自己。」</strong></p>
+                <p>「真正的富足，是內在的平衡與完整。我們不該只做一個事業成功的『跛腳巨人』，而應該同時成為心態強大、情感豐富、身體健康、靈魂平靜的『國王』或『女王』。」</p>
+                <p><strong>「改變需要 21 天。前 21 天是最困難的，但也是最關鍵的。」</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>ReadTrack | 在世界醒來之前投資自己</p>
+    </div>
+</body>
+</html>
