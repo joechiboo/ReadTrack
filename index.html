@@ -333,7 +333,7 @@
                 <span class="stat-label">讀書心得</span>
             </div>
             <div class="stat-item">
-                <span class="stat-number">4.7</span>
+                <span class="stat-number">4.5</span>
                 <span class="stat-label">平均評分</span>
             </div>
         </div>
@@ -348,8 +348,8 @@
                 <div class="filter-controls">
                     <div class="filter-group">
                         <span class="filter-label">評分：</span>
-                        <button class="filter-btn active" data-rating="all">全部</button>
-                        <button class="filter-btn" data-rating="5">⭐⭐⭐⭐⭐</button>
+                        <button class="filter-btn" data-rating="all">全部</button>
+                        <button class="filter-btn active" data-rating="5">⭐⭐⭐⭐⭐</button>
                         <button class="filter-btn" data-rating="4">⭐⭐⭐⭐</button>
                         <button class="filter-btn" data-rating="3">⭐⭐⭐</button>
                     </div>
@@ -506,13 +506,13 @@
                 </div>
 
                 <!-- 療癒內在小孩 -->
-                <div class="book-card" data-rating="5" data-date="2025-11-15" data-tags="心理成長,親子教養,自我療癒">
+                <div class="book-card" data-rating="4" data-date="2025-11-15" data-tags="心理成長,親子教養,自我療癒">
                     <div class="book-header">
                         <div>
                             <div class="book-title">療癒內在小孩</div>
                             <div class="book-date">📅 2025-11-15</div>
                         </div>
-                        <div class="book-rating">⭐⭐⭐⭐⭐</div>
+                        <div class="book-rating">⭐⭐⭐⭐</div>
                     </div>
 
                     <div class="book-meta">
@@ -548,7 +548,7 @@
 
     <script>
         // 篩選和排序功能
-        let currentRating = 'all';
+        let currentRating = '5';
         let currentSort = 'date-desc';
 
         const searchBox = document.getElementById('searchBox');
@@ -651,6 +651,9 @@
                 }
             });
         });
+
+        // 頁面載入時執行預設篩選
+        filterBooks();
     </script>
 </body>
 </html>
