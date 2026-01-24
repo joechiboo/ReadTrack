@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>資訊室 Scrum 導入指南</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft JhengHei", "Segoe UI", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: white;
+            padding: 10mm;
+            max-width: 210mm;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+
+        .header .subtitle {
+            font-size: 13px;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .section {
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            padding: 12px;
+            background: #fafafa;
+        }
+
+        .section.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .section h2 {
+            font-size: 16px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .section h2 .icon {
+            font-size: 18px;
+        }
+
+        .flow-block {
+            background: white;
+            border-left: 4px solid #667eea;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .flow-block.done {
+            border-left-color: #27ae60;
+        }
+
+        .flow-block.new {
+            border-left-color: #e74c3c;
+        }
+
+        .flow-block.planning {
+            border-left-color: #3498db;
+        }
+
+        .flow-block.retro {
+            border-left-color: #f39c12;
+        }
+
+        .flow-block h3 {
+            font-size: 14px;
+            color: #2c3e50;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+
+        .flow-block .time {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-bottom: 6px;
+        }
+
+        .flow-block ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .flow-block ul li {
+            font-size: 12px;
+            padding: 3px 0;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .flow-block ul li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+        }
+
+        .flow-block ul li.check:before {
+            content: "✓";
+            color: #27ae60;
+        }
+
+        .table-container {
+            background: white;
+            padding: 8px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        th, td {
+            padding: 8px 6px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .badge.done {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge.new {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .quotes {
+            background: #e8f4fd;
+            padding: 12px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            font-style: italic;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .quotes p {
+            margin-bottom: 8px;
+        }
+
+        .quotes p:last-child {
+            margin-bottom: 0;
+        }
+
+        .flow-diagram {
+            background: white;
+            padding: 15px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .flow-diagram .flow-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .flow-diagram .flow-item {
+            background: #667eea;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .flow-diagram .flow-item.highlight {
+            background: #e74c3c;
+        }
+
+        .flow-diagram .arrow {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+
+        .faq {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .faq-item {
+            padding: 8px 0;
+            border-bottom: 1px dotted #ddd;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-item .q {
+            font-size: 12px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+
+        .faq-item .a {
+            font-size: 12px;
+            color: #555;
+            padding-left: 12px;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 12px;
+            border-top: 2px solid #ecf0f1;
+            margin-top: 15px;
+        }
+
+        .footer p {
+            font-size: 11px;
+            color: #7f8c8d;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+            }
+
+            .section {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔄 資訊室 Scrum 導入指南</h1>
+        <p class="subtitle">用框架組織進度，用節奏推動改善</p>
+    </div>
+
+    <div class="main-content">
+        <!-- 左欄：核心概念 -->
+        <div class="section">
+            <h2><span class="icon">💡</span> 核心概念</h2>
+
+            <div class="flow-block">
+                <h3>我們的調整思維</h3>
+                <ul>
+                    <li><strong>部門 = 一個產品</strong></li>
+                    <li>所有專案/任務 = Product Backlog</li>
+                    <li>不是「導入 Scrum」，是「組織工作節奏」</li>
+                    <li>挑選適合的元素，不是照本宣科</li>
+                </ul>
+            </div>
+
+            <div class="flow-block">
+                <h3>Scrum 的本質</h3>
+                <ul>
+                    <li>少浪費，比做更多重要</li>
+                    <li>透明：大家知道彼此在做什麼</li>
+                    <li>檢視：定期看看方向對不對</li>
+                    <li>調整：發現問題就改，不拖</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 右欄：現況盤點 -->
+        <div class="section">
+            <h2><span class="icon">📋</span> 現況盤點</h2>
+
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>實踐項目</th>
+                        <th>狀態</th>
+                        <th>效果</th>
+                    </tr>
+                    <tr>
+                        <td>每日站會</td>
+                        <td><span class="badge done">已落實</span></td>
+                        <td>4 分鐘同步</td>
+                    </tr>
+                    <tr>
+                        <td>可視化看板</td>
+                        <td><span class="badge done">已落實</span></td>
+                        <td>工作透明</td>
+                    </tr>
+                    <tr>
+                        <td>雙週 Demo</td>
+                        <td><span class="badge done">已落實</span></td>
+                        <td>定期交付</td>
+                    </tr>
+                    <tr>
+                        <td>Sprint Planning</td>
+                        <td><span class="badge new">待加入</span></td>
+                        <td>共同承諾</td>
+                    </tr>
+                    <tr>
+                        <td>Retrospective</td>
+                        <td><span class="badge new">待加入</span></td>
+                        <td>持續改善</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- 流程圖 -->
+        <div class="section full-width">
+            <h2><span class="icon">🔁</span> 雙週節奏</h2>
+            <div class="flow-diagram">
+                <div class="flow-row">
+                    <div class="flow-item">每日站會</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-item">雙週 Demo</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-item highlight">Retro (15分)</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-item highlight">Planning (15分)</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-item">下一輪</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 新增項目說明 -->
+        <div class="section">
+            <h2><span class="icon">🆕</span> 要加入的兩件事</h2>
+
+            <div class="flow-block retro">
+                <h3>📝 Retrospective（回顧）</h3>
+                <div class="time">15 分鐘 · Demo 結束後</div>
+                <ul>
+                    <li>這兩週做得好的是什麼？</li>
+                    <li>可以改進的是什麼？</li>
+                    <li>下輪要試什麼新做法？</li>
+                    <li><strong>每次只挑一件事改，不貪多</strong></li>
+                </ul>
+            </div>
+
+            <div class="flow-block planning">
+                <h3>🎯 Sprint Planning（規劃）</h3>
+                <div class="time">15 分鐘 · Retro 結束後</div>
+                <ul>
+                    <li>看看 Backlog 有哪些待辦</li>
+                    <li>一起決定下兩週優先處理什麼</li>
+                    <li>承諾的量要實際，不要塞太滿</li>
+                    <li><strong>寫在看板上，每天站會對照</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 常見問題 -->
+        <div class="section">
+            <h2><span class="icon">❓</span> 常見問題</h2>
+            <div class="faq">
+                <div class="faq-item">
+                    <div class="q">Q: 會增加多少開會時間？</div>
+                    <div class="a">A: 每兩週多 30 分鐘（Retro + Planning）</div>
+                </div>
+                <div class="faq-item">
+                    <div class="q">Q: 我的小專案也要報告嗎？</div>
+                    <div class="a">A: Demo 時簡短說明進度即可，不用做簡報</div>
+                </div>
+                <div class="faq-item">
+                    <div class="q">Q: 臨時插單怎麼辦？</div>
+                    <div class="a">A: 正常處理，站會同步狀態，不影響節奏</div>
+                </div>
+                <div class="faq-item">
+                    <div class="q">Q: Planning 承諾的一定要做完嗎？</div>
+                    <div class="a">A: 目標是「優先處理」，不是「必須完成」</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 金句提醒 -->
+        <div class="section full-width">
+            <h2><span class="icon">✨</span> 核心精神</h2>
+            <div class="quotes">
+                <p><strong>「Scrum 不是一套工具，是一種思維方式——承認我們不完美，但相信我們可以持續變好。」</strong></p>
+                <p>「每兩週改善一點點，複利效應會在幾年後顯現。」</p>
+                <p><strong>「先試三輪，再來調整。」</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>ReadTrack | 資訊室 Scrum 導入指南 | 2025.12</p>
+    </div>
+</body>
+</html>

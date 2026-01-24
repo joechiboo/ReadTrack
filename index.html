@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReadTrack - 我的讀書追蹤系統</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="favicon-192x192.png">
     <style>
         * {
             margin: 0;
@@ -77,10 +81,99 @@
 
         .section-title {
             font-size: 1.8em;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             color: #2d3748;
             padding-bottom: 10px;
             border-bottom: 3px solid #667eea;
+        }
+
+        .filter-section {
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-bottom: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .filter-label {
+            font-size: 0.9em;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .filter-btn {
+            padding: 6px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 20px;
+            background: white;
+            color: #495057;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            border-color: #667eea;
+            color: white;
+        }
+
+        .sort-select {
+            padding: 6px 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 0.85em;
+            cursor: pointer;
+            background: white;
+        }
+
+        .sort-select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .book-card.hidden {
+            display: none;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+            display: none;
+        }
+
+        .no-results.show {
+            display: block;
         }
 
         .book-list {
@@ -232,15 +325,15 @@
 
         <div class="stats">
             <div class="stat-item">
-                <span class="stat-number">5</span>
+                <span class="stat-number">10</span>
                 <span class="stat-label">已讀書籍</span>
             </div>
             <div class="stat-item">
-                <span class="stat-number">5</span>
+                <span class="stat-number">10</span>
                 <span class="stat-label">讀書心得</span>
             </div>
             <div class="stat-item">
-                <span class="stat-number">4.2</span>
+                <span class="stat-number">4.4</span>
                 <span class="stat-label">平均評分</span>
             </div>
         </div>
@@ -248,9 +341,146 @@
         <main>
             <h2 class="section-title">📖 讀書心得</h2>
 
+            <!-- 篩選區 -->
+            <div class="filter-section">
+                <input type="text" class="search-box" id="searchBox" placeholder="🔍 搜尋書名、標籤或內容...">
+
+                <div class="filter-controls">
+                    <div class="filter-group">
+                        <span class="filter-label">評分：</span>
+                        <button class="filter-btn" data-rating="all">全部</button>
+                        <button class="filter-btn active" data-rating="5">⭐⭐⭐⭐⭐</button>
+                        <button class="filter-btn" data-rating="4">⭐⭐⭐⭐</button>
+                        <button class="filter-btn" data-rating="3">⭐⭐⭐</button>
+                    </div>
+
+                    <div class="filter-group">
+                        <span class="filter-label">排序：</span>
+                        <select class="sort-select" id="sortSelect">
+                            <option value="date-desc">日期 (新→舊)</option>
+                            <option value="date-asc">日期 (舊→新)</option>
+                            <option value="rating-desc">評分 (高→低)</option>
+                            <option value="rating-asc">評分 (低→高)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="no-results" id="noResults">
+                😔 找不到符合條件的心得
+            </div>
+
             <div class="book-list">
+                <!-- 整理床鋪 -->
+                <div class="book-card" data-rating="4" data-date="2026-01-05" data-tags="晨間習慣,個人成長,海豹部隊,William McRaven">
+                    <div class="book-header">
+                        <div>
+                            <div class="book-title">整理床鋪 (Make Your Bed)</div>
+                            <div class="book-date">📅 2026-01-05</div>
+                        </div>
+                        <div class="book-rating">⭐⭐⭐⭐</div>
+                    </div>
+
+                    <div class="book-meta">
+                        <span class="meta-tag clickable">晨間習慣</span>
+                        <span class="meta-tag clickable">個人成長</span>
+                        <span class="meta-tag clickable">海豹部隊</span>
+                        <span class="meta-tag clickable">William McRaven</span>
+                    </div>
+
+                    <div class="book-summary">
+                        從每天整理床鋪這個小動作開始，累積自信、改變人生。
+                        結合 20/20/20 晨間習慣、成功日記，用小行動累積大改變。
+                    </div>
+
+                    <div class="book-actions">
+                        <a href="review.html?file=reviews/2026-01-05-整理床鋪.md" class="btn btn-primary">閱讀完整心得</a>
+                    </div>
+                </div>
+
+                <!-- 公平分工 -->
+                <div class="book-card" data-rating="5" data-date="2026-01-03" data-tags="家庭經營,婚姻關係,心力勞動,Eve Rodsky">
+                    <div class="book-header">
+                        <div>
+                            <div class="book-title">公平分工 (Fair Play)</div>
+                            <div class="book-date">📅 2026-01-03</div>
+                        </div>
+                        <div class="book-rating">⭐⭐⭐⭐⭐</div>
+                    </div>
+
+                    <div class="book-meta">
+                        <span class="meta-tag clickable">家庭經營</span>
+                        <span class="meta-tag clickable">婚姻關係</span>
+                        <span class="meta-tag clickable">心力勞動</span>
+                        <span class="meta-tag clickable">Eve Rodsky</span>
+                    </div>
+
+                    <div class="book-summary">
+                        公平分工不是「各做 50%」，而是心力勞動有被看見。
+                        CPE 原則：真正擁有一張任務卡，代表從構思、規劃到執行全程負責。只做 E 的人，不算真正擁有這張卡。
+                    </div>
+
+                    <div class="book-actions">
+                        <a href="review.html?file=reviews/2026-01-03-公平分工.md" class="btn btn-primary">閱讀完整心得</a>
+                    </div>
+                </div>
+
+                <!-- The Let Them Theory -->
+                <div class="book-card" data-rating="4" data-date="2025-12-16" data-tags="心理成長,人際關係,自我成長,Mel Robbins">
+                    <div class="book-header">
+                        <div>
+                            <div class="book-title">The Let Them Theory</div>
+                            <div class="book-date">📅 2025-12-16</div>
+                        </div>
+                        <div class="book-rating">⭐⭐⭐⭐</div>
+                    </div>
+
+                    <div class="book-meta">
+                        <span class="meta-tag clickable">心理成長</span>
+                        <span class="meta-tag clickable">人際關係</span>
+                        <span class="meta-tag clickable">自我成長</span>
+                        <span class="meta-tag clickable">Mel Robbins</span>
+                    </div>
+
+                    <div class="book-summary">
+                        「隨他們去」看似消極，其實充滿主動出擊的力量。
+                        我們唯一能控制的只有自己，學會劃清「關心」與「控制」的界線，把能量回歸自身。
+                    </div>
+
+                    <div class="book-actions">
+                        <a href="review.html?file=reviews/2025-12-16-The-Let-Them-Theory.md" class="btn btn-primary">閱讀完整心得</a>
+                    </div>
+                </div>
+
+                <!-- 小狗錢錢 -->
+                <div class="book-card" data-rating="5" data-date="2025-12-14" data-tags="投資理財,個人成長,理財入門,博多·舍費爾">
+                    <div class="book-header">
+                        <div>
+                            <div class="book-title">小狗錢錢</div>
+                            <div class="book-date">📅 2025-12-14</div>
+                        </div>
+                        <div class="book-rating">⭐⭐⭐⭐⭐</div>
+                    </div>
+
+                    <div class="book-meta">
+                        <span class="meta-tag clickable">投資理財</span>
+                        <span class="meta-tag clickable">個人成長</span>
+                        <span class="meta-tag clickable">理財入門</span>
+                        <span class="meta-tag clickable">博多·舍費爾</span>
+                    </div>
+
+                    <div class="book-summary">
+                        用故事帶出理財具體方法，很適合搭配《富爸爸窮爸爸》一起看。
+                        夢想清單、成功日記、金鵝理論、72 小時法則、72 法則（複利翻倍）等實用觀念。
+                    </div>
+
+                    <div class="book-actions">
+                        <a href="review.html?file=reviews/2025-12-14-小狗錢錢.md" class="btn btn-primary">閱讀完整心得</a>
+                    </div>
+                </div>
+
                 <!-- 12週年 -->
-                <div class="book-card">
+                <div class="book-card" data-rating="4" data-date="2025-12-09" data-tags="時間管理,目標設定,執行力,Brian P. Moran">
                     <div class="book-header">
                         <div>
                             <div class="book-title">12週年！：要做就做第一的執行計畫</div>
@@ -260,10 +490,10 @@
                     </div>
 
                     <div class="book-meta">
-                        <span class="meta-tag">時間管理</span>
-                        <span class="meta-tag">目標設定</span>
-                        <span class="meta-tag">執行力</span>
-                        <span class="meta-tag">Brian P. Moran</span>
+                        <span class="meta-tag clickable">時間管理</span>
+                        <span class="meta-tag clickable">目標設定</span>
+                        <span class="meta-tag clickable">執行力</span>
+                        <span class="meta-tag clickable">Brian P. Moran</span>
                     </div>
 
                     <div class="book-summary">
@@ -276,8 +506,61 @@
                     </div>
                 </div>
 
+                <!-- Scrum -->
+                <div class="book-card" data-rating="5" data-date="2025-12-09" data-tags="敏捷開發,團隊管理,Scrum,Jeff Sutherland">
+                    <div class="book-header">
+                        <div>
+                            <div class="book-title">Scrum：用一半的時間做兩倍的事</div>
+                            <div class="book-date">📅 2025-12-09</div>
+                        </div>
+                        <div class="book-rating">⭐⭐⭐⭐⭐</div>
+                    </div>
+
+                    <div class="book-meta">
+                        <span class="meta-tag clickable">敏捷開發</span>
+                        <span class="meta-tag clickable">團隊管理</span>
+                        <span class="meta-tag clickable">Scrum</span>
+                        <span class="meta-tag clickable">Jeff Sutherland</span>
+                    </div>
+
+                    <div class="book-summary">
+                        Scrum 的本質不是「做更多」，而是「少浪費」。
+                        結合帶領資訊室團隊的實踐經驗，分享每日站會、可視化看板、雙週 Demo 的成效，以及如何補上 Sprint Planning 和 Retrospective 的缺口。
+                    </div>
+
+                    <div class="book-actions">
+                        <a href="review.html?file=reviews/2025-12-09-Scrum.md" class="btn btn-primary">閱讀完整心得</a>
+                    </div>
+                </div>
+
+                <!-- 富爸爸窮爸爸 -->
+                <div class="book-card" data-rating="5" data-date="2025-12-07" data-tags="投資理財,個人成長,羅伯特·清崎">
+                    <div class="book-header">
+                        <div>
+                            <div class="book-title">富爸爸窮爸爸</div>
+                            <div class="book-date">📅 2025-12-07 (更新)</div>
+                        </div>
+                        <div class="book-rating">⭐⭐⭐⭐⭐</div>
+                    </div>
+
+                    <div class="book-meta">
+                        <span class="meta-tag clickable">投資理財</span>
+                        <span class="meta-tag clickable">個人成長</span>
+                        <span class="meta-tag clickable">羅伯特·清崎</span>
+                    </div>
+
+                    <div class="book-summary">
+                        改變財務思維的經典之作，重點不是賺多少錢，而是如何讓錢為你工作。
+                        探討資產 vs 負債的重新定義、複利的真正威力、買房 vs 租房的務實思考，以及給下一代的財商教育。
+                    </div>
+
+                    <div class="book-actions">
+                        <a href="review.html?file=reviews/2025-11-13-富爸爸窮爸爸.md" class="btn btn-primary">閱讀完整心得</a>
+                    </div>
+                </div>
+
                 <!-- 清晨五點俱樂部 -->
-                <div class="book-card">
+                <div class="book-card" data-rating="5" data-date="2025-12-07" data-tags="個人成長,時間管理,生活習慣,Robin Sharma">
                     <div class="book-header">
                         <div>
                             <div class="book-title">清晨五點俱樂部</div>
@@ -287,10 +570,10 @@
                     </div>
 
                     <div class="book-meta">
-                        <span class="meta-tag">個人成長</span>
-                        <span class="meta-tag">時間管理</span>
-                        <span class="meta-tag">生活習慣</span>
-                        <span class="meta-tag">Robin Sharma</span>
+                        <span class="meta-tag clickable">個人成長</span>
+                        <span class="meta-tag clickable">時間管理</span>
+                        <span class="meta-tag clickable">生活習慣</span>
+                        <span class="meta-tag clickable">Robin Sharma</span>
                     </div>
 
                     <div class="book-summary">
@@ -304,7 +587,7 @@
                 </div>
 
                 <!-- 每週工作4小時 -->
-                <div class="book-card">
+                <div class="book-card" data-rating="3" data-date="2025-11-16" data-tags="時間管理,生活設計,工作效率,Timothy Ferriss">
                     <div class="book-header">
                         <div>
                             <div class="book-title">每週工作4小時</div>
@@ -314,10 +597,10 @@
                     </div>
 
                     <div class="book-meta">
-                        <span class="meta-tag">時間管理</span>
-                        <span class="meta-tag">生活設計</span>
-                        <span class="meta-tag">工作效率</span>
-                        <span class="meta-tag">Timothy Ferriss</span>
+                        <span class="meta-tag clickable">時間管理</span>
+                        <span class="meta-tag clickable">生活設計</span>
+                        <span class="meta-tag clickable">工作效率</span>
+                        <span class="meta-tag clickable">Timothy Ferriss</span>
                     </div>
 
                     <div class="book-summary">
@@ -331,19 +614,19 @@
                 </div>
 
                 <!-- 療癒內在小孩 -->
-                <div class="book-card">
+                <div class="book-card" data-rating="4" data-date="2025-11-15" data-tags="心理成長,親子教養,自我療癒">
                     <div class="book-header">
                         <div>
                             <div class="book-title">療癒內在小孩</div>
                             <div class="book-date">📅 2025-11-15</div>
                         </div>
-                        <div class="book-rating">⭐⭐⭐⭐⭐</div>
+                        <div class="book-rating">⭐⭐⭐⭐</div>
                     </div>
 
                     <div class="book-meta">
-                        <span class="meta-tag">心理成長</span>
-                        <span class="meta-tag">親子教養</span>
-                        <span class="meta-tag">自我療癒</span>
+                        <span class="meta-tag clickable">心理成長</span>
+                        <span class="meta-tag clickable">親子教養</span>
+                        <span class="meta-tag clickable">自我療癒</span>
                     </div>
 
                     <div class="book-summary">
@@ -353,32 +636,6 @@
 
                     <div class="book-actions">
                         <a href="review.html?file=reviews/2025-11-15-療癒內在小孩.md" class="btn btn-primary">閱讀完整心得</a>
-                    </div>
-                </div>
-
-                <!-- 富爸爸窮爸爸 -->
-                <div class="book-card">
-                    <div class="book-header">
-                        <div>
-                            <div class="book-title">富爸爸窮爸爸</div>
-                            <div class="book-date">📅 2025-11-13</div>
-                        </div>
-                        <div class="book-rating">⭐⭐⭐⭐⭐</div>
-                    </div>
-
-                    <div class="book-meta">
-                        <span class="meta-tag">投資理財</span>
-                        <span class="meta-tag">個人成長</span>
-                        <span class="meta-tag">羅伯特·清崎</span>
-                    </div>
-
-                    <div class="book-summary">
-                        改變財務思維的經典之作，重點不是賺多少錢，而是如何讓錢為你工作。
-                        探討資產 vs 負債的重新定義、為錢工作 vs 讓錢為你工作、技能變現的關鍵能力。
-                    </div>
-
-                    <div class="book-actions">
-                        <a href="review.html?file=reviews/2025-11-13-富爸爸窮爸爸.md" class="btn btn-primary">閱讀完整心得</a>
                     </div>
                 </div>
 
@@ -398,15 +655,113 @@
     </div>
 
     <script>
+        // 篩選和排序功能
+        let currentRating = '5';
+        let currentSort = 'date-desc';
+
+        const searchBox = document.getElementById('searchBox');
+        const sortSelect = document.getElementById('sortSelect');
+        const ratingBtns = document.querySelectorAll('.filter-btn[data-rating]');
+        const bookCards = document.querySelectorAll('.book-card');
+        const noResults = document.getElementById('noResults');
+
+        // 搜尋功能
+        searchBox.addEventListener('input', filterBooks);
+
+        // 評分篩選
+        ratingBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                ratingBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentRating = btn.dataset.rating;
+                filterBooks();
+            });
+        });
+
+        // 排序功能
+        sortSelect.addEventListener('change', () => {
+            currentSort = sortSelect.value;
+            sortBooks();
+        });
+
+        // 標籤點擊搜尋
+        document.querySelectorAll('.meta-tag.clickable').forEach(tag => {
+            tag.style.cursor = 'pointer';
+            tag.addEventListener('click', (e) => {
+                e.stopPropagation();
+                searchBox.value = tag.textContent;
+                filterBooks();
+            });
+        });
+
+        // 篩選函數
+        function filterBooks() {
+            const searchTerm = searchBox.value.toLowerCase();
+            let visibleCount = 0;
+
+            bookCards.forEach(card => {
+                const title = card.querySelector('.book-title').textContent.toLowerCase();
+                const tags = card.dataset.tags.toLowerCase();
+                const summary = card.querySelector('.book-summary').textContent.toLowerCase();
+                const rating = card.dataset.rating;
+
+                const matchSearch = !searchTerm ||
+                    title.includes(searchTerm) ||
+                    tags.includes(searchTerm) ||
+                    summary.includes(searchTerm);
+
+                const matchRating = currentRating === 'all' || rating === currentRating;
+
+                if (matchSearch && matchRating) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            // 顯示/隱藏無結果訊息
+            if (visibleCount === 0) {
+                noResults.classList.add('show');
+            } else {
+                noResults.classList.remove('show');
+            }
+        }
+
+        // 排序函數
+        function sortBooks() {
+            const bookList = document.querySelector('.book-list');
+            const cards = Array.from(bookCards);
+
+            cards.sort((a, b) => {
+                switch(currentSort) {
+                    case 'date-desc':
+                        return b.dataset.date.localeCompare(a.dataset.date);
+                    case 'date-asc':
+                        return a.dataset.date.localeCompare(b.dataset.date);
+                    case 'rating-desc':
+                        return parseInt(b.dataset.rating) - parseInt(a.dataset.rating);
+                    case 'rating-asc':
+                        return parseInt(a.dataset.rating) - parseInt(b.dataset.rating);
+                }
+            });
+
+            // 重新排列 DOM
+            cards.forEach(card => bookList.appendChild(card));
+        }
+
         // 點擊卡片導航到心得頁面
-        document.querySelectorAll('.book-card').forEach(card => {
+        bookCards.forEach(card => {
             card.addEventListener('click', function(e) {
-                if (!e.target.closest('.btn')) {
+                if (!e.target.closest('.btn') && !e.target.classList.contains('meta-tag')) {
                     const link = this.querySelector('.btn-primary');
                     if (link) window.location.href = link.href;
                 }
             });
         });
+
+        // 頁面載入時執行預設篩選
+        filterBooks();
     </script>
 </body>
 </html>
