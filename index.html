@@ -346,7 +346,7 @@
 
             <div class="essay-list">
                 <!-- 天賦，與它的持有成本 -->
-                <div class="essay-card">
+                <div class="essay-card" data-date="2026-09-06">
                     <div class="book-header">
                         <div>
                             <div class="book-title">天賦，與它的持有成本</div>
@@ -859,6 +859,16 @@
                 }
             });
         });
+
+        // 隨筆依日期排序（新→舊）
+        function sortEssays() {
+            const essayList = document.querySelector('.essay-list');
+            if (!essayList) return;
+            Array.from(essayList.querySelectorAll('.essay-card'))
+                .sort((a, b) => (b.dataset.date || '').localeCompare(a.dataset.date || ''))
+                .forEach(card => essayList.appendChild(card));
+        }
+        sortEssays();
 
         // 頁面載入時執行預設篩選
         filterBooks();
