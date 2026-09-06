@@ -176,14 +176,12 @@
             display: block;
         }
 
-        .book-list,
-        .essay-list {
+        .book-list {
             display: grid;
             gap: 20px;
         }
 
-        .book-card,
-        .essay-card {
+        .book-card {
             background: white;
             border: 2px solid #e9ecef;
             border-radius: 12px;
@@ -192,8 +190,7 @@
             cursor: pointer;
         }
 
-        .book-card:hover,
-        .essay-card:hover {
+        .book-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
             border-color: #667eea;
@@ -342,46 +339,20 @@
         </div>
 
         <main>
-            <h2 class="section-title">✍️ 隨筆</h2>
-
-            <div class="essay-list">
-                <!-- 天賦，與它的持有成本 -->
-                <div class="essay-card" data-date="2026-09-06">
-                    <div class="book-header">
-                        <div>
-                            <div class="book-title">天賦，與它的持有成本</div>
-                            <div class="book-date">📅 2026-09-06</div>
-                        </div>
-                        <div class="book-rating">⭐⭐⭐½</div>
-                    </div>
-
-                    <div class="book-meta">
-                        <span class="meta-tag">能力與代價</span>
-                        <span class="meta-tag">記憶力</span>
-                        <span class="meta-tag">適應力</span>
-                        <span class="meta-tag">Re:Zero</span>
-                    </div>
-
-                    <div class="book-summary">
-                        七宗罪不是單純的惡，而是美德推到極致之後的樣子。
-                        從《Re:Zero》的設定談起：能力與代價本來就是同一件事的兩面，而它們會一起被環境重新定價。
-                    </div>
-
-                    <div class="book-actions">
-                        <a href="review.html?file=essays/2026-09-06-天賦與它的持有成本.md" class="btn btn-primary">閱讀全文</a>
-                    </div>
-                </div>
-
-                <!-- 未來的隨筆會在這裡 -->
-            </div>
-
-            <h2 class="section-title" style="margin-top: 50px;">📖 讀書心得</h2>
+            <h2 class="section-title">📚 心得筆記</h2>
 
             <!-- 篩選區 -->
             <div class="filter-section">
-                <input type="text" class="search-box" id="searchBox" placeholder="🔍 搜尋書名、標籤或內容...">
+                <input type="text" class="search-box" id="searchBox" placeholder="🔍 搜尋標題、標籤或內容...">
 
                 <div class="filter-controls">
+                    <div class="filter-group">
+                        <span class="filter-label">類別：</span>
+                        <button class="filter-btn active" data-type="all">全部</button>
+                        <button class="filter-btn" data-type="book">📖 讀書</button>
+                        <button class="filter-btn" data-type="essay">✍️ 隨筆</button>
+                    </div>
+
                     <div class="filter-group">
                         <span class="filter-label">評分：</span>
                         <button class="filter-btn active" data-rating="all">全部</button>
@@ -407,8 +378,35 @@
             </div>
 
             <div class="book-list">
+                <!-- 天賦，與它的持有成本 -->
+                <div class="book-card" data-type="essay" data-rating="3.5" data-date="2026-09-06" data-tags="能力與代價,記憶力,適應力,Re:Zero,隨筆">
+                    <div class="book-header">
+                        <div>
+                            <div class="book-title">天賦，與它的持有成本</div>
+                            <div class="book-date">📅 2026-09-06 · ✍️ 隨筆</div>
+                        </div>
+                        <div class="book-rating">⭐⭐⭐½</div>
+                    </div>
+
+                    <div class="book-meta">
+                        <span class="meta-tag clickable">能力與代價</span>
+                        <span class="meta-tag clickable">記憶力</span>
+                        <span class="meta-tag clickable">適應力</span>
+                        <span class="meta-tag clickable">Re:Zero</span>
+                    </div>
+
+                    <div class="book-summary">
+                        七宗罪不是單純的惡，而是美德推到極致之後的樣子。
+                        從《Re:Zero》的設定談起：能力與代價本來就是同一件事的兩面，而它們會一起被環境重新定價。
+                    </div>
+
+                    <div class="book-actions">
+                        <a href="review.html?file=essays/2026-09-06-天賦與它的持有成本.md" class="btn btn-primary">閱讀全文</a>
+                    </div>
+                </div>
+
                 <!-- 奇特的一生 -->
-                <div class="book-card" data-rating="5" data-date="2026-08-16" data-tags="時間管理,自我成長,傳記,柳比歇夫,格拉寧">
+                <div class="book-card" data-type="book" data-rating="5" data-date="2026-08-16" data-tags="時間管理,自我成長,傳記,柳比歇夫,格拉寧">
                     <div class="book-header">
                         <div>
                             <div class="book-title">奇特的一生</div>
@@ -435,7 +433,7 @@
                 </div>
 
                 <!-- 持續買進 -->
-                <div class="book-card" data-rating="5" data-date="2026-06-06" data-tags="投資理財,長期投資,定期定額,Nick Maggiulli">
+                <div class="book-card" data-type="book" data-rating="5" data-date="2026-06-06" data-tags="投資理財,長期投資,定期定額,Nick Maggiulli">
                     <div class="book-header">
                         <div>
                             <div class="book-title">持續買進：打死不賣</div>
@@ -462,7 +460,7 @@
                 </div>
 
                 <!-- 12週年 -->
-                <div class="book-card" data-rating="4" data-date="2026-01-24" data-tags="時間管理,目標設定,執行力,Brian P. Moran">
+                <div class="book-card" data-type="book" data-rating="4" data-date="2026-01-24" data-tags="時間管理,目標設定,執行力,Brian P. Moran">
                     <div class="book-header">
                         <div>
                             <div class="book-title">12週年！：要做就做第一的執行計畫</div>
@@ -489,7 +487,7 @@
                 </div>
 
                 <!-- 整理床鋪 -->
-                <div class="book-card" data-rating="4" data-date="2026-01-05" data-tags="晨間習慣,個人成長,海豹部隊,William McRaven">
+                <div class="book-card" data-type="book" data-rating="4" data-date="2026-01-05" data-tags="晨間習慣,個人成長,海豹部隊,William McRaven">
                     <div class="book-header">
                         <div>
                             <div class="book-title">整理床鋪 (Make Your Bed)</div>
@@ -516,7 +514,7 @@
                 </div>
 
                 <!-- 公平分工 -->
-                <div class="book-card" data-rating="5" data-date="2026-01-03" data-tags="家庭經營,婚姻關係,心力勞動,Eve Rodsky">
+                <div class="book-card" data-type="book" data-rating="5" data-date="2026-01-03" data-tags="家庭經營,婚姻關係,心力勞動,Eve Rodsky">
                     <div class="book-header">
                         <div>
                             <div class="book-title">公平分工 (Fair Play)</div>
@@ -543,7 +541,7 @@
                 </div>
 
                 <!-- The Let Them Theory -->
-                <div class="book-card" data-rating="4" data-date="2025-12-16" data-tags="心理成長,人際關係,自我成長,Mel Robbins">
+                <div class="book-card" data-type="book" data-rating="4" data-date="2025-12-16" data-tags="心理成長,人際關係,自我成長,Mel Robbins">
                     <div class="book-header">
                         <div>
                             <div class="book-title">The Let Them Theory</div>
@@ -570,7 +568,7 @@
                 </div>
 
                 <!-- 小狗錢錢 -->
-                <div class="book-card" data-rating="5" data-date="2025-12-14" data-tags="投資理財,個人成長,理財入門,博多·舍費爾">
+                <div class="book-card" data-type="book" data-rating="5" data-date="2025-12-14" data-tags="投資理財,個人成長,理財入門,博多·舍費爾">
                     <div class="book-header">
                         <div>
                             <div class="book-title">小狗錢錢</div>
@@ -597,7 +595,7 @@
                 </div>
 
                 <!-- Scrum -->
-                <div class="book-card" data-rating="5" data-date="2025-12-09" data-tags="敏捷開發,團隊管理,Scrum,Jeff Sutherland">
+                <div class="book-card" data-type="book" data-rating="5" data-date="2025-12-09" data-tags="敏捷開發,團隊管理,Scrum,Jeff Sutherland">
                     <div class="book-header">
                         <div>
                             <div class="book-title">Scrum：用一半的時間做兩倍的事</div>
@@ -624,7 +622,7 @@
                 </div>
 
                 <!-- 富爸爸窮爸爸 -->
-                <div class="book-card" data-rating="5" data-date="2025-12-07" data-tags="投資理財,個人成長,羅伯特·清崎">
+                <div class="book-card" data-type="book" data-rating="5" data-date="2025-12-07" data-tags="投資理財,個人成長,羅伯特·清崎">
                     <div class="book-header">
                         <div>
                             <div class="book-title">富爸爸窮爸爸</div>
@@ -650,7 +648,7 @@
                 </div>
 
                 <!-- 清晨五點俱樂部 -->
-                <div class="book-card" data-rating="5" data-date="2025-12-07" data-tags="個人成長,時間管理,生活習慣,Robin Sharma">
+                <div class="book-card" data-type="book" data-rating="5" data-date="2025-12-07" data-tags="個人成長,時間管理,生活習慣,Robin Sharma">
                     <div class="book-header">
                         <div>
                             <div class="book-title">清晨五點俱樂部</div>
@@ -677,7 +675,7 @@
                 </div>
 
                 <!-- 每週工作4小時 -->
-                <div class="book-card" data-rating="3" data-date="2025-11-16" data-tags="時間管理,生活設計,工作效率,Timothy Ferriss">
+                <div class="book-card" data-type="book" data-rating="3" data-date="2025-11-16" data-tags="時間管理,生活設計,工作效率,Timothy Ferriss">
                     <div class="book-header">
                         <div>
                             <div class="book-title">每週工作4小時</div>
@@ -704,7 +702,7 @@
                 </div>
 
                 <!-- 療癒內在小孩 -->
-                <div class="book-card" data-rating="4" data-date="2025-11-15" data-tags="心理成長,親子教養,自我療癒">
+                <div class="book-card" data-type="book" data-rating="4" data-date="2025-11-15" data-tags="心理成長,親子教養,自我療癒">
                     <div class="book-header">
                         <div>
                             <div class="book-title">療癒內在小孩</div>
@@ -748,15 +746,27 @@
         // 篩選和排序功能
         let currentRating = 'all';
         let currentSort = 'date-desc';
+        let currentType = 'all';
 
         const searchBox = document.getElementById('searchBox');
         const sortSelect = document.getElementById('sortSelect');
         const ratingBtns = document.querySelectorAll('.filter-btn[data-rating]');
+        const typeBtns = document.querySelectorAll('.filter-btn[data-type]');
         const bookCards = document.querySelectorAll('.book-card');
         const noResults = document.getElementById('noResults');
 
         // 搜尋功能
         searchBox.addEventListener('input', filterBooks);
+
+        // 類別篩選
+        typeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                typeBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentType = btn.dataset.type;
+                filterBooks();
+            });
+        });
 
         // 評分篩選
         ratingBtns.forEach(btn => {
@@ -800,9 +810,10 @@
                     tags.includes(searchTerm) ||
                     summary.includes(searchTerm);
 
-                const matchRating = currentRating === 'all' || rating === currentRating;
+                const matchRating = currentRating === 'all' || Math.floor(parseFloat(rating)) === parseInt(currentRating);
+                const matchType = currentType === 'all' || card.dataset.type === currentType;
 
-                if (matchSearch && matchRating) {
+                if (matchSearch && matchRating && matchType) {
                     card.classList.remove('hidden');
                     visibleCount++;
                 } else {
@@ -830,9 +841,9 @@
                     case 'date-asc':
                         return a.dataset.date.localeCompare(b.dataset.date);
                     case 'rating-desc':
-                        return parseInt(b.dataset.rating) - parseInt(a.dataset.rating);
+                        return parseFloat(b.dataset.rating) - parseFloat(a.dataset.rating);
                     case 'rating-asc':
-                        return parseInt(a.dataset.rating) - parseInt(b.dataset.rating);
+                        return parseFloat(a.dataset.rating) - parseFloat(b.dataset.rating);
                 }
             });
 
@@ -850,27 +861,8 @@
             });
         });
 
-        // 點擊隨筆卡片導航到全文
-        document.querySelectorAll('.essay-card').forEach(card => {
-            card.addEventListener('click', function(e) {
-                if (!e.target.closest('.btn')) {
-                    const link = this.querySelector('.btn-primary');
-                    if (link) window.location.href = link.href;
-                }
-            });
-        });
-
-        // 隨筆依日期排序（新→舊）
-        function sortEssays() {
-            const essayList = document.querySelector('.essay-list');
-            if (!essayList) return;
-            Array.from(essayList.querySelectorAll('.essay-card'))
-                .sort((a, b) => (b.dataset.date || '').localeCompare(a.dataset.date || ''))
-                .forEach(card => essayList.appendChild(card));
-        }
-        sortEssays();
-
         // 頁面載入時執行預設篩選
+        sortBooks();
         filterBooks();
     </script>
 </body>
