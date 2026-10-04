@@ -325,15 +325,15 @@
 
         <div class="stats">
             <div class="stat-item">
-                <span class="stat-number">13</span>
+                <span class="stat-number" id="statBooks">13</span>
                 <span class="stat-label">已讀書籍</span>
             </div>
             <div class="stat-item">
-                <span class="stat-number">16</span>
+                <span class="stat-number" id="statNotes">16</span>
                 <span class="stat-label">心得筆記</span>
             </div>
             <div class="stat-item">
-                <span class="stat-number">4.3</span>
+                <span class="stat-number" id="statRating">4.3</span>
                 <span class="stat-label">平均評分</span>
             </div>
         </div>
@@ -942,7 +942,23 @@
             });
         });
 
+        // 統計數字：由卡片的 data 屬性自動計算
+        function updateStats() {
+            const cards = Array.from(bookCards);
+            const books = cards.filter(c => c.dataset.type === 'book');
+            const ratings = cards
+                .map(c => parseFloat(c.dataset.rating))
+                .filter(r => !isNaN(r));
+            const avg = ratings.length
+                ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1)
+                : '-';
+            document.getElementById('statBooks').textContent = books.length;
+            document.getElementById('statNotes').textContent = cards.length;
+            document.getElementById('statRating').textContent = avg;
+        }
+
         // 頁面載入時執行預設篩選
+        updateStats();
         sortBooks();
         filterBooks();
     </script>
